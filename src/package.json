@@ -1,0 +1,35 @@
+{
+  "name": "electric-field-hockey",
+  "version": "0.1.0",
+  "description": "Simulation of electric charge movement in electric field.",
+  "main": "index.js",
+  "scripts": {
+    "server": "webpack-dev-server",
+    "webpack": "webpack",
+    "dev": "npm run server -- --env.mode development",
+    "prod": "npm run webpack -- --env.mode production",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EmilSroka/Project_Electric-charge-movement-simulation.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EmilSroka/Project_Electric-charge-movement-simulation/issues"
+  },
+  "homepage": "https://github.com/EmilSroka/Project_Electric-charge-movement-simulation#readme",
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "babel-jest": "^25.3.0",
+    "babel-loader": "^8.1.0",
+    "html-webpack-plugin": "^4.2.0",
+    "jest": "^25.3.0",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3",
+    "webpack-merge": "^4.2.2"
+  }
+}

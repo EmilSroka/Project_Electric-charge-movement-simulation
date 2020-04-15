@@ -9,4 +9,17 @@ Description: Simulation of electric charge movement in electric field.
 Authors: [Emil Sroka](https://github.com/EmilSroka), [Hubert Miziołek](https://github.com/HubMiz), [Roman Yatsuniak](https://github.com/hatlesstick)
 
 ## File organization  
-* /doc - documentation details and researches
+* `/doc` - documentation details and researches
+* `/src` - project source and configuration files
+  * `/webpack` - webpack configuration files 
+  * `/dev` - source code
+* `/dist` - place for distribution code (added to .gitignore)
+
+## Getting started
+Go to src directory.
+Run `npm install` to download all dependencies.
+
+## Development
+Run `npm run dev` to start development server  
+Run `npm run prod` to build production code in `/dist` location  
+Run `npm run test` to run testing framework
