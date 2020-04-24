@@ -16,7 +16,7 @@ Authors: [Emil Sroka](https://github.com/EmilSroka), [Hubert Miziołek](https://
 * `/dist` - place for distribution code (added to .gitignore)
 
 ## Getting started
-Go to src directory.
+Go to `src` directory.  
 Run `npm install` to download all dependencies.
 
 ## Development
