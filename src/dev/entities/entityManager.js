@@ -1,6 +1,7 @@
 export class EntityManager{
   constructor(){
     // create array for entities
+    //
   }
 
   *[Symbol.iterator] () {
