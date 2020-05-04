@@ -1,7 +1,7 @@
 import { ElectricCharge, ChargeType } from "../simulation/electricCharge";
 import { Coordinates, Circle } from "../general/geometrics";
 
-export class abstractEntity {
+export class entity {
   constructor({ 
       electricCharge = new ElectricCharge(0, ChargeType.NEUTRAL),
       mass = 1,
@@ -18,11 +18,22 @@ export class abstractEntity {
   }
 
   simulate(deltaTime){
-    throw new Error("Abstract method");
+    this.move(deltaTime);
+    this.updateVelocity(deltaTime);
   }
 
   updateAcceleration(vector){
     this.acceleration.x += vector.x;
     this.acceleration.y += vector.y;
+  }
+
+  move(deltaTime){
+    const deltaX = this.x + this.velocity.x * deltaTime + 0.5 * this.acceleration.x * Math.pow(deltaTime, 2);
+    const deltaY = this.y + this.velocity.y * deltaTime + 0.5 * this.acceleration.y * Math.pow(deltaTime, 2);
+    this.bounding.move(deltaX, deltaY);
+  }
+
+  calculateVelocity(deltaTime){
+    this.velocity.translate(deltaTime * this.acceleration.x, deltaTime * this.acceleration.y);
   }
 }
