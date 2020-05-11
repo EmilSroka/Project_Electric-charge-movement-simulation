@@ -3,7 +3,7 @@ export function deepCopy(type){
     return type;
   }
 
-  const copy = {};
+  const copy = new type.constructor();
   for(const [key, value] of Object.entries(type)){
     copy[key] = deepCopy(value);
   }
