@@ -1,36 +1,33 @@
 export class EntityManager{
   constructor(){
-    // create array for entities
+    // [entity, entityView]
     this.entities = [];
   }
 
   *[Symbol.iterator] () {
-    // create iterator
-    // loop over array and yield value
     for (let k; k < this.entities.length; k++) {
-      yield this.entities[k].value;
+      yield this.entities[k][0];
     }
   }
 
   *pairs(){
-    // create iterator
-    // yield pair (array of length 2) with both element
-    // without repetition
     for(let i = 0; i < this.entities.length; i++) {
       for (let j = i + 1; j < this.entities.length; j++) {
-        yield [this.entities[i], this.entities[j]];
+        yield [this.entities[i][0], this.entities[j][0]];
       }
     }   
   }
 
   add(entity){
-    // add entity to array
-    this.entities.push(entity);
+    if(!this.entities.includes(entity)){
+      this.entities.push(entity);
+    }
   }
 
   remove(entity){
-    // remove entity from array
     const entityIndex = this.entities.findIndex(entityArr => entityArr.electricCharge === entity.electricCharge);
-    this.entities.splice(entityIndex, 1);
+    if(entityIndex != -1){
+      this.entities.splice(entityIndex, 1);
+    }
   }
 }
