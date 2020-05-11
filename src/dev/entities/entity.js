@@ -15,6 +15,8 @@ export class entity {
     this.velocity = velocity;
     this.acceleration = acceleration;
     this.bounding = bounding;
+
+    this.previousCollider = null;
   }
 
   simulate(deltaTime){
