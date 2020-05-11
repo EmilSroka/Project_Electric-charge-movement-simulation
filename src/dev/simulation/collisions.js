@@ -5,9 +5,10 @@ export function collisionCheckerFactory(shape1, shape2){
     return rectangleRectangleCollision;
   } else if (shape1 instanceof Circle && shape2 instanceof Circle){
     return circleCircleCollision;
-  } else if (shape1 instanceof Rectangle && shape2 instanceof Circle ||
-             shape1 instanceof Circle && shape2 instanceof Rectangle){
+  } else if (shape1 instanceof Rectangle && shape2 instanceof Circle) {
     return rectangleCircleCollision;
+  } else if (shape1 instanceof Circle && shape2 instanceof Rectangle){
+    return circleRectangleCollision;
   } else {
     throw new Error("Unexpected shape");
   }
@@ -42,7 +43,11 @@ export function rectangleRectangleCollision(rectangle1, rectangle2){
   }
 }
 
-export function rectangleCircleCollision(circle, rectangle){
+export function circleRectangleCollision(circle, rectangle){
+  return rectangleCircleCollision(rectangle, circle);
+}
+
+export function rectangleCircleCollision(rectangle, circle){
   const {topLeft, topRight, bottomRight, bottomLeft} = rectangle.getPoints();
 
   if(circle.center.isInsideRectangle(rectangle)){

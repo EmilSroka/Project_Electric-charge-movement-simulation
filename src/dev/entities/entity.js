@@ -38,4 +38,10 @@ export class entity {
   calculateVelocity(deltaTime){
     this.velocity.translate(deltaTime * this.acceleration.x, deltaTime * this.acceleration.y);
   }
+
+  getArrayOfBoundings(){
+    return (Array.isArray(this.bounding)) ? this.bounding : [this.bounding];
+  }
+
+  handleCollision(){ }
 }

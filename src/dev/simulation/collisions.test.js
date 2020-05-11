@@ -70,8 +70,8 @@ test.each([
 ])('Rectangle (x:%f y:%f w:%f, h:%f) and circle (x:%f y:%f r:%f) %s collide', (x1, y1, w, h, x2, y2, r, _, expected) => {
   expect(
     rectangleCircleCollision(
-      new Circle(new Coordinates(x2, y2), r),
-      new Rectangle(new Coordinates(x1, y1), w, h)
+      new Rectangle(new Coordinates(x1, y1), w, h),
+      new Circle(new Coordinates(x2, y2), r)
     )
   ).toBe(expected);
 });
