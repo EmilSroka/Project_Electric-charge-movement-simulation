@@ -30,8 +30,6 @@ export class EntityManager{
 
   remove(entity){
     // remove entity from array
-    
-    //needs ID to every entity
     const entityIndex = this.entities.findIndex(entityArr => entityArr.electricCharge === entity.electricCharge);
     this.entities.splice(entityIndex, 1);
   }
