@@ -1,4 +1,4 @@
-import { Simulation } from "./physicsSimulation";
+import { PhysicsSimulation } from "./physicsSimulation";
 import { EntityManager } from "../entities/entityManager";
 import { deepCopy } from '../general/utils';
 import { Time } from '../general/time';
