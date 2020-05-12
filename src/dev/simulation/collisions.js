@@ -68,8 +68,8 @@ export function rectangleCircleCollision(rectangle, circle){
 export function collision(entity1, entity2){
   if(entity1.previousCollider === entity2)
     return;
-
-  const angle = calculateAngle(entity1.getCenter(), entity2.getCenter());
+    
+  const angle = calculateAngle(entity1.center, entity2.center);
 
   const u1 = rotate(entity1.velocity, angle);
   const u2 = rotate(entity2.velocity, angle);
@@ -102,7 +102,7 @@ function calculateVelocity(u1, u2, m1, m2){
       u1.y
     ),
     v2: new Coordinates(
-      u2.x * (m1 - m2) / (m1 + m2) + u1.x * 2 * m2 / (m1 + m2),
+      u2.x * (m2 - m1) / (m1 + m2) + u1.x * 2 * m1 / (m1 + m2),
       u2.y
     )
   }
