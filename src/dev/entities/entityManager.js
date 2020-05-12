@@ -5,8 +5,14 @@ export class EntityManager{
   }
 
   *[Symbol.iterator] () {
-    for (let k; k < this.entities.length; k++) {
+    for (let k=0; k < this.entities.length; k++) {
       yield this.entities[k][0];
+    }
+  }
+
+  *views(){
+    for (let k=0; k < this.entities.length; k++) {
+      yield this.entities[k][1];
     }
   }
 
