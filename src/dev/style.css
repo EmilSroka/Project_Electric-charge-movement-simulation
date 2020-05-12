@@ -1,0 +1,13 @@
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  box-sizing: border-box;
+  margin: 0px;
+}
+
+#visualization {
+  margin: 0 auto;
+  display: block;
+}
