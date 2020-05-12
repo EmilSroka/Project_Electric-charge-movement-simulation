@@ -1,4 +1,4 @@
-return class Time {
+export class Time {
   constructor(firstTimestamp){
     this.firstTimestamp = firstTimestamp;
     this.currentTimestamp = firstTimestamp;

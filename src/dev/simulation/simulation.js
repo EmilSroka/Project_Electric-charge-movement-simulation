@@ -1,4 +1,4 @@
-import { Simulation } from "./physicsSimulation";
+import { PhysicsSimulation } from "./physicsSimulation";
 import { EntityManager } from "../entities/entityManager";
 import { deepCopy } from '../general/utils';
 import { Time } from '../general/time';
@@ -14,11 +14,11 @@ export default class Simulation{
    *   @property {function} result - returns object that indicates a result of the simulation, np. win, lose
    * @param {function} setupEntityManager - adds crucial objects to EntityManager like a puck, hockey gate, walls etc.
    */
-  constructor(stopCondition, setupEntityManager){ 
+  constructor(stopCondition, setupEntityManager, entityManager){ 
     this.stopCondition = stopCondition;
 
-    this.entityManager = new EntityManager();
-    this.simulation = new Simulation();
+    this.entityManager = entityManager;
+    this.simulation = new PhysicsSimulation(entityManager);
     this.observers = [];
 
     this.nextFrame = this.nextFrame.bind(this);
@@ -39,7 +39,7 @@ export default class Simulation{
     this.simulation.nextStep(this.time.deltaTime);
 
     if(!this.stopCondition.check(this.entityManager, this.time)){
-      window.requestAnimationFrame(this.startSimulation);
+      window.requestAnimationFrame(this.nextFrame);
     } else {
       this.notifySubscribers();
     }
