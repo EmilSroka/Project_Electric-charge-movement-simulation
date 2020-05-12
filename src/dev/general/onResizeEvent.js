@@ -6,20 +6,22 @@ const subscribers = [];
 let isBlocked = false;
 
 export default {
-  subscribe(cb){
-    console.log(cb);
-    if(subscribers.includes(cb))
-      return;
-  
-    subscribers.push(cb);
-  },
-  unsubscribe(cb){
-    if(!subscribers.includes(cb))
-      return;
-  
-    const index = subscribers.indexOf(cb);
-    subscribers.splice(index, 1);
-  }
+  subscribe, unsubscribe
+}
+
+function subscribe(cb){
+  if(subscribers.includes(cb))
+    return;
+
+  subscribers.push(cb);
+}
+
+function unsubscribe(cb){
+  if(!subscribers.includes(cb))
+    return;
+
+  const index = subscribers.indexOf(cb);
+  subscribers.splice(index, 1);
 }
 
 window.addEventListener('resize', async () => {
