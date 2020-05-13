@@ -1,5 +1,5 @@
 import { collision, collisionCheckerFactory } from "./collisions";
-import { accelerationFromElectricity } from "./electricCharge";
+import { accelerationFromElectricity, ChargeType } from "./electricCharge";
 
 export class PhysicsSimulation {
   constructor(entityManager){
@@ -27,11 +27,11 @@ export class PhysicsSimulation {
   }
 
   handleCollisions(){
-    for(const [entity1, entity2] of this.entityManager.pairs()){
-      if(!collides(entity1, entity2))
-        continue;
-
-      collision(entity1, entity2);
+    const pairs = this.entityManager.pairs(canCollide);
+    for(const [entity1, entity2] of pairs){
+      if(collides(entity1, entity2)){
+        collision(entity1, entity2);
+      }      
     }
   }
 }
@@ -52,3 +52,11 @@ function collides(entity1, entity2){
 
   return false;
 } 
+
+function canCollide([entity]){
+  return entity.canCollide;
+}
+
+function hasCharge([entity]){
+  return entity.isElectrical && entity.electricCharge.chargeType != ChargeType.NEUTRAL;
+}

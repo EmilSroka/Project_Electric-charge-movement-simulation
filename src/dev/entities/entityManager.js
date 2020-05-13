@@ -16,10 +16,13 @@ export class EntityManager{
     }
   }
 
-  *pairs(){
-    for(let i = 0; i < this.entities.length; i++) {
-      for (let j = i + 1; j < this.entities.length; j++) {
-        yield [this.entities[i][0], this.entities[j][0]];
+  *pairs(
+    condition = () => true
+  ) {
+    const entities = this.entities.filter(condition);
+    for(let i = 0; i < entities.length; i++) {
+      for (let j = i + 1; j < entities.length; j++) {
+        yield [entities[i][0], entities[j][0]];
       }
     }   
   }

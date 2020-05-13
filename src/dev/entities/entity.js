@@ -2,22 +2,18 @@ import { ElectricCharge, ChargeType } from "../simulation/electricCharge";
 import { Coordinates, Circle } from "../general/geometrics";
 
 export class Entity {
-  constructor({ 
-      electricCharge = new ElectricCharge(0, ChargeType.NEUTRAL),
+  constructor({
       mass = 1,
       velocity = new Coordinates(0,0), 
       acceleration = new Coordinates(0,0),
       bounding = new Circle(new Coordinates(0,0),1),
       center = new Coordinates(0,0)
      } = {}){
-    this.electricCharge = electricCharge;
     this.mass = mass;
     this.velocity = velocity;
     this.acceleration = acceleration;
     this.bounding = bounding;
     this.center = center;
-
-    this.previousCollider = null;
   }
 
   simulate(deltaTime){
