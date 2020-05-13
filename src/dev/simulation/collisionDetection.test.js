@@ -1,4 +1,4 @@
-import {collisionCheckerFactory, circleCircleCollision, rectangleRectangleCollision, rectangleCircleCollision} from './collisions';
+import {collisionCheckerFactory, circleCircleCollision, rectangleRectangleCollision, rectangleCircleCollision} from './collisionDetection';
 import { Circle, Rectangle, Coordinates } from '../general/geometrics';
 
 test('collisionCheckerFactory function returns proper collision checker based on arguments', () => {

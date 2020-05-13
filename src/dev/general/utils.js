@@ -17,6 +17,11 @@ export function wait(ms){
   });
 }
 
+export function isBetween(x, value1, value2){
+  const [min, max] = [value1, value2].sort();
+  return x >= min && x <= max;
+}
+
 function isObject(value){
   return value && typeof value === 'object'
 }

@@ -1,4 +1,5 @@
-import { collision, collisionCheckerFactory } from "./collisions";
+import { collisionCheckerFactory } from "./collisionDetection";
+import { collision } from "./collisionResponse";
 import { accelerationFromElectricity, ChargeType } from "./electricCharge";
 
 export class PhysicsSimulation {
@@ -13,7 +14,7 @@ export class PhysicsSimulation {
   }
 
   calculateElectricForces(deltaTime){
-    for(const [entity1, entity2] of this.entityManager.pairs()){
+    for(const [entity1, entity2] of this.entityManager.pairs(hasCharge)){
       const [acceleration1, acceleration2] = accelerationFromElectricity(entity1,entity2,deltaTime);
       entity1.updateAcceleration(acceleration1);
       entity2.updateAcceleration(acceleration2);
@@ -29,8 +30,9 @@ export class PhysicsSimulation {
   handleCollisions(){
     const pairs = this.entityManager.pairs(canCollide);
     for(const [entity1, entity2] of pairs){
-      if(collides(entity1, entity2)){
-        collision(entity1, entity2);
+      const boundings = collides(entity1, entity2);
+      if(boundings){
+        collision(entity1, entity2, boundings);
       }      
     }
   }
@@ -45,7 +47,7 @@ function collides(entity1, entity2){
     for(let bounding2 of boundings2){
       const collisionChecker = collisionCheckerFactory(bounding1, bounding2);
       if(collisionChecker(bounding1, bounding2)){
-        return true;
+        return [bounding1, bounding2];
       }
     }
   }
