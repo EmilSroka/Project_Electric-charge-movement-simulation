@@ -34,7 +34,7 @@ export class Visualization {
   }
 
   nextFrame(){
-    this.painter.drawCircle(new Circle(new Coordinates(0,0), 5000), 'white', 'white'); // TODO clean
+    this.painter.drawCircle(new Circle(new Coordinates(0,0), 5000), 'white', 'white');
 
     for(let view of this.entityManager.views()){
       view.draw(this.painter);
