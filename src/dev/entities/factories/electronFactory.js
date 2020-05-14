@@ -8,7 +8,7 @@ import { electricalDecorator } from '../decorators/electricalDecorator';
 export function electronFactory(x, y){
   let entity = new Entity({
     mass: 9.10938356e-31,
-    velocity: new Coordinates(0.1,0),
+    velocity: new Coordinates(0,0),
     acceleration: new Coordinates(0,0),
     bounding: new Circle(new Coordinates(x,y),40),
     center: new Coordinates(x,y)

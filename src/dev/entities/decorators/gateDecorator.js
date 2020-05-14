@@ -1,4 +1,4 @@
-export function gareDecorator(component){
+export function gateDecorator(component){
   component["isGate"] = true;
   return component;
 }

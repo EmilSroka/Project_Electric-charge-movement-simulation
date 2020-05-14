@@ -26,6 +26,11 @@ export class Entity {
     this.acceleration.y += vector.y;
   }
 
+  resetAcceleration(){
+    this.acceleration.x = 0;
+    this.acceleration.y = 0;
+  }
+
   move(deltaTime){
     const deltaX = this.velocity.x * deltaTime + 0.5 * this.acceleration.x * Math.pow(deltaTime, 2);
     const deltaY = this.velocity.y * deltaTime + 0.5 * this.acceleration.y * Math.pow(deltaTime, 2);
