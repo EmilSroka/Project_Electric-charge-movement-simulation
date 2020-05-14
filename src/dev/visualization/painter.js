@@ -6,13 +6,24 @@ export class Painter{
     this.unitTranslator = unitTranslator;
   }
 
+  drawRepeatImage(rectangle, img){
+    this.ctx.fillStyle = this.ctx.createPattern(img, 'repeat');
+    this.ctx.beginPath();
+
+    const {x, y} = this.unitTranslator.translatePoint(rectangle.topLeftCorner);
+    const width = this.unitTranslator.toCanvasUnit(rectangle.width);
+    const height = this.unitTranslator.toCanvasUnit(rectangle.height);
+    this.ctx.fillRect(x, y, width, height);
+  }
+  
+
   drawRectangle(rectangle, fillColor = "white", strokeColor = "black", lineWidth = 1){
     this.ctx.fillStyle = fillColor;
     this.ctx.strokeStyle = strokeColor;
     this.ctx.lineWidth = this.unitTranslator.toCanvasUnit(lineWidth);
     this.ctx.beginPath();
 
-    const {x, y} = this.unitTranslator.translatePoint(rectangle.topLeftCorner)
+    const {x, y} = this.unitTranslator.translatePoint(rectangle.topLeftCorner);
     const width = this.unitTranslator.toCanvasUnit(rectangle.width);
     const height = this.unitTranslator.toCanvasUnit(rectangle.height);
     this.ctx.rect(x, y, width, height);
