@@ -11,6 +11,12 @@ export function deepCopy(type){
   return copy;
 }
 
+export function wait(ms){
+  return new Promise((resolve) => {
+    window.setTimeout(resolve,ms);
+  });
+}
+
 function isObject(value){
   return value && typeof value === 'object'
 }

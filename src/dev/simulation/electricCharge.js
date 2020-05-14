@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { PositionVector } from "../general/geometrics";
+=======
+import { Coordinates } from "../general/geometrics";
+>>>>>>> 58d1b5da0f6df1d4bdc7d73987cff8ffc78ea70a
 
 export class ElectricCharge {
   constructor(chargeType, value) {
@@ -36,5 +40,10 @@ export function accelerationFromElectricity(entity1, entity2, deltaTime){
   entity1.updateAcceleration(vector1);
   entity2.updateAcceleration(vector2);
   // return [acceleration for entity1, acceleration for entity2];
+<<<<<<< HEAD
 }
 
+=======
+  return [new Coordinates(0,0), new Coordinates(0,0)];
+}
+>>>>>>> 58d1b5da0f6df1d4bdc7d73987cff8ffc78ea70a

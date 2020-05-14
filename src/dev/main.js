@@ -1,15 +1,34 @@
-import { EntityManager } from "./entities/entityManager";
-import { Simulation } from "./simulation/simulation";
+class StopCondition{
+  constructor(){
+    this.i = 0;
+  }
 
-// TMP
-const deltaTime = 25;
-const endCondition = i > 100;
-let i = 0;
+  check(){
+    this.i++;
+    return this.i > 1000;
+  }
 
-const entitiyManager = new EntityManager();
-const simulation = new Simulation(entitiyManager);
+  reset(){
+    this.i = 0;
+  }
 
-while(endCondition){
-  simulation.simulate();
-  i++;
+  result() {}
+}
+
+import css from './style.css';
+import { Visualization } from './visualization/visualization';
+import { electronFactory } from './entities/factories/electronFactory';
+import { protonFactory } from './entities/factories/protonFactory';
+import { EntityManager } from './entities/entityManager';
+
+import Simulation from './simulation/simulation';
+
+const entityManager = new EntityManager();
+const visualization = new Visualization("#visualization", entityManager);
+const simulation = new Simulation(new StopCondition(), setupEntityManager, entityManager);
+simulation.startSimulation();
+
+function setupEntityManager(entityManager){
+  entityManager.add(electronFactory(50, 540));
+  entityManager.add(protonFactory(1030,540));
 }
