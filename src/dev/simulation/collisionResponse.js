@@ -15,22 +15,22 @@ export function collision(entity1, entity2, [shape1, shape2]){
   entity1.velocity = rotate(v1, -angle);
   entity2.velocity = rotate(v2, -angle);
 
-  entity1.previousCollider = entity2;
-  entity2.previousCollider = entity1;
+  entity1.previousCollider = shape2;
+  entity2.previousCollider = shape1;
 }
 
 function getPoints(shape1, shape2){
   if(shape1 instanceof Circle && shape2 instanceof Circle){
-    return [ shape1.center, shape2.center];
+    return [shape1.center, shape2.center];
   } else if ( shape1 instanceof Rectangle && shape2 instanceof Circle ){
     return [getCollisionPoint(shape2, shape1), shape2.center];
   } else if ( shape1 instanceof Circle && shape2 instanceof Rectangle){
     return [shape1.center, getCollisionPoint(shape1, shape2)];
-  } else if ( shape1 instanceof Rectangle && shape2 instanceof Rectangle) {
-    return [shape1.topLeftCorner, shape1.topLeftCorner];
   } else {
     throw new Error("Unsupported collision response");
   }
+
+  // shape1 instanceof Rectangle && shape2 instanceof Rectangle
 }
 
 function getCollisionPoint(circle, rectangle){

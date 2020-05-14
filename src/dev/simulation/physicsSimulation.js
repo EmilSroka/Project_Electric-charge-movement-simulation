@@ -8,9 +8,16 @@ export class PhysicsSimulation {
   }
 
   nextStep(deltaTime){
+    this.resetAcceleration();
     this.calculateElectricForces(deltaTime);
     this.simulate(deltaTime);
     this.handleCollisions();
+  }
+
+  resetAcceleration(){
+    for(const entity of this.entityManager){
+      entity.resetAcceleration();
+    }
   }
 
   calculateElectricForces(deltaTime){

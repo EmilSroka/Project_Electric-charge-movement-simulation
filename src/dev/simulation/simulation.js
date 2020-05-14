@@ -63,13 +63,18 @@ export default class Simulation{
     }
   }
 
-  makeCopy(){
+  makeCopy(){ // TODO - refactor
+    const entityManager = [];
+    for(let [entity, view] of this.entityManager.entities){
+      entityManager.push([deepCopy(entity),view]);
+    }
+
     return {
-      entityManager: deepCopy(this.entityManager),
+      entityManager
     }
   }
 
   restoreCopy({entityManager}){
-    this.entityManager = entityManager;
+    this.entityManager.entities = entityManager;
   }
 }
