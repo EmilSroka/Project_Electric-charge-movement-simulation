@@ -1,6 +1,8 @@
 # Electric charge movement simulation
 
-Project is making as part of "Discrete simulation of complex systems" [Symulacja dyskretna systemów złożonych] course at AGH University of Science and Technology.
+Project is making as part of "Discrete simulation of complex systems" [Symulacja dyskretna systemów złożonych] course at AGH University of Science and Technology.  
+
+Preview: PUT LINK HERE
 
 ## Project details
 
@@ -13,6 +15,7 @@ Authors: [Emil Sroka](https://github.com/EmilSroka), [Hubert Miziołek](https://
 * `/src` - project source and configuration files
   * `/webpack` - webpack configuration files 
   * `/dev` - source code
+* `/deploy` - deployed files for github pages
 * `/dist` - place for distribution code (added to .gitignore)
 
 ## Getting started
