@@ -2,7 +2,7 @@
 
 Project is making as part of "Discrete simulation of complex systems" [Symulacja dyskretna systemów złożonych] course at AGH University of Science and Technology.  
 
-Preview: PUT LINK HERE
+[Go to preview](https://emilsroka.github.io/Project_Electric-charge-movement-simulation/.)
 
 ## Project details
 
