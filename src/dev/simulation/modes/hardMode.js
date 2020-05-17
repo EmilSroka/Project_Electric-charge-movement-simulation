@@ -7,7 +7,15 @@ import { borderFactory } from '../../entities/factories/borderFactory';
 import { wallFactory } from '../../entities/factories/wallFactory';
 
 export class HardMode extends Mode {
+  constructor(){
+    super(); 
+    this.electrons = 3;
+    this.protons = 3;
+  }
+
   onInit(entityManager){
+    entityManager.clear();
+
     entityManager.add(puckFactory(400,540));
     
     entityManager.add(borderFactory(960, 1060, 1920, 40));
@@ -20,7 +28,7 @@ export class HardMode extends Mode {
     entityManager.add(wallFactory(700, 340, 40, 600));
     entityManager.add(wallFactory(700, 660, 100, 40)); 
 
-    entityManager.add(gateFactory(1620, 540, 150, 340));
+    entityManager.add(gateFactory(1620, 540, 140, 330));
     entityManager.add(gateBorderFactory(1600, 540, Side.left, 200, 350));
   }
 }

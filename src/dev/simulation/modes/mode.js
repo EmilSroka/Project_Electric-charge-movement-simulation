@@ -6,15 +6,14 @@ import { isPuck } from '../../entities/decorators/puckDecorator';
 import { isGate } from '../../entities/decorators/gateDecorator';
 import { isBorder } from '../../entities/decorators/borderDecorator';
 import { collisionCheckerFactory } from '../collisionDetection';
-
-import { wallFactory } from '../../entities/factories/wallFactory';
-import { electronFactory } from '../../entities/factories/electronFactory';
-import { protonFactory } from '../../entities/factories/protonFactory';
+import { isConfigurable } from '../../entities/decorators/configurableDecorator';
+import { ChargeType } from '../electricCharge';
 
 export const Result = {
   win: 1,
   lose: -1,
-  unknown: 0
+  unknown: 0,
+  draw: 2
 }
 
 const maxTime = 60000;
@@ -23,6 +22,8 @@ export class Mode {
   constructor(){
     this.result = Result.unknown; 
     this.maxTime = maxTime; 
+    this.electrons = 1;
+    this.protons = 1;
   }
 
   meetStopCondition(entityManager, time){
@@ -41,7 +42,7 @@ export class Mode {
     }
 
     if(this.outOfTime(time)){
-      this.result = Result.lose;
+      this.result = Result.draw;
       return true;
     }
 
@@ -52,11 +53,31 @@ export class Mode {
     return this.result;
   }
 
-  onReset() { }
+  onReset(entityManager) {
+    if(this.copy){
+      entityManager.restoreSnapshot(this.copy);
+    } else {
+      this.onInit(entityManager);
+    }
+    this.result = Result.unknown; 
+  }
 
   onInit() { }
 
-  onStart() { }
+  onStart(entityManager) {
+    this.copy = entityManager.takeSnapshot();
+  }
+
+  getEntityLimit(entityManager) {
+    let playerEntities = [...entityManager].filter(isConfigurable);
+    let electrons = this.electrons - playerEntities.filter(entity => entity.electricCharge.chargeType === ChargeType.NEGATIVE).length;
+    let protons = this.protons - playerEntities.filter(entity => entity.electricCharge.chargeType === ChargeType.POSITIVE).length;
+    return [electrons, protons];
+  }
+
+  makeCopy(entityManager){
+    this.copy = entityManager.takeSnapshot();
+  }
 
   goal(pucks, gates){
     const puckBoundings = pucks.flatMap(puck => puck.getArrayOfBoundings());
@@ -87,4 +108,3 @@ export class Mode {
   }
 
 }
-

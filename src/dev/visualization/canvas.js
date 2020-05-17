@@ -7,7 +7,7 @@ import { States, StateFactory } from './states/stateFactory';
 import { puckFactory } from '../entities/factories/puckFactory';
 
 const WIDTH = 1920;
-const PART_OF_PAGE_WIDTH = 0.9;
+const PART_OF_PAGE_WIDTH = 0.8;
 const CANVAS_RATIO = 9 / 16;
 
 export class Canvas{
@@ -20,7 +20,7 @@ export class Canvas{
     this.interactionController = new InteractionController(this.canvas, this.unitTranslator, this.entityManager);
 
     this.stateFactory = new StateFactory(this.entityManager, this.interactionController);
-    this.interactionController.setState(this.stateFactory.get(States.AddEntityState, puckFactory(-100, -100)));
+    this.interactionController.setState(this.stateFactory.get(States.ConfigureState, puckFactory(-100, -100)));
     
     this.updateSize();
     this.unitTranslator.recalc();
@@ -43,5 +43,17 @@ export class Canvas{
   setEntityManager(entityManager){
     this.entityManager = entityManager;
     this.visualization.setEntityManager(entityManager);
+  }
+
+  setState(state){
+    this.interactionController.setState(state);
+  }
+
+  getState(){
+    return this.interactionController.state;
+  }
+
+  getStateFactory(){
+    return this.stateFactory;
   }
 }

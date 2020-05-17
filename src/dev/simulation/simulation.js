@@ -1,6 +1,7 @@
 import { PhysicsSimulation } from "./physicsSimulation";
 import { Time } from '../general/time';
 import globalState from '../general/state';
+import { Result } from './modes/mode'
 
 export default class Simulation{
   constructor(mode, entityManager){ 
@@ -9,6 +10,7 @@ export default class Simulation{
     this.entityManager = entityManager;
     this.simulation = new PhysicsSimulation(entityManager);
     this.observers = [];
+    this.forcedStop = false;
 
     this.nextFrame = this.nextFrame.bind(this);
 
@@ -17,7 +19,6 @@ export default class Simulation{
 
   startSimulation(){
     this.time = new Time(performance.now());
-    this.copy = this.entityManager.takeSnapshot();
     this.mode.onStart(this.entityManager);
 
     this.nextFrame(performance.now());
@@ -28,10 +29,11 @@ export default class Simulation{
     const deltaTime = globalState.getValue('fixedStep') ? globalState.getValue('fixedStepValue') : this.time.getDeltaTime();
     this.simulation.nextStep(deltaTime);
 
-    if(!this.mode.meetStopCondition(this.entityManager, this.time)){
-      window.requestAnimationFrame(this.nextFrame);
-    } else {
+    if(this.mode.meetStopCondition(this.entityManager, this.time) || this.forcedStop){
+      this.forcedStop = false;
       this.notifySubscribers();
+    } else {
+      window.requestAnimationFrame(this.nextFrame);
     }
   }
 
@@ -54,7 +56,21 @@ export default class Simulation{
   }
 
   reset(){
-    this.mode.onReset();
-    this.entityManager.restoreSnapshot(this.copy);
+    this.mode.onReset(this.entityManager);
+  }
+
+  stop(){
+    if(this.mode.getResult() === Result.unknown)
+      this.forcedStop = true;
+  }
+
+  getCurrentMode(){
+    return this.mode;
+  }
+
+  setMode(mode){
+    this.mode.makeCopy(this.entityManager);
+    this.mode = mode;
+    this.mode.onReset(this.entityManager);
   }
 }

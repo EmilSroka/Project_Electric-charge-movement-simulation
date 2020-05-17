@@ -1,7 +1,7 @@
-import { getColor, GRAY, BLACK } from '../../general/colors';
+import { getColor } from '../../general/colors';
 
 export class CurtainView{
-  constructor(entity, text, textColor = BLACK, fontSize = 48, color = GRAY, opacity = 0.2){
+  constructor(entity, text, textColor, fontSize, color, opacity){
     this.entity = entity;
     this.textColor = textColor;
     this.color = color;
@@ -10,12 +10,13 @@ export class CurtainView{
     this.fontSize = fontSize;
   }
 
-  draw(painter){
-    painter.writeText(this.entity.center, this.text, this.fontSize, getColor(this.textColor));
+  draw(painter){ 
     painter.drawRectangle(
       this.entity.bounding, 
       getColor(this.color, this.opacity), 
       getColor(this.color),
-      5);
+      5
+    );
+    painter.writeText(this.entity.center, this.text, this.fontSize, getColor(this.textColor));
   }
 }

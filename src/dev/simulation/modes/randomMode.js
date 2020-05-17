@@ -16,21 +16,29 @@ const curtainTopLeft = new Coordinates(960, 1040);
 const curtainBottomRight = new Coordinates(1880, 40);
 
 export class RandomMode extends Mode {
+  constructor(){
+    super(); 
+    this.electrons = 2;
+    this.protons = 2;
+  }
+
   onInit(entityManager){
+    entityManager.clear();
+
     entityManager.add(puckFactory(960,540));
     entityManager.add(wallFactory(1900, 540, 40, 1000));
     entityManager.add(wallFactory(20, 540, 40, 1000));
     entityManager.add(wallFactory(960, 1060, 1920, 40));
     entityManager.add(wallFactory(960, 20, 1920, 40));
-    entityManager.add(gateFactory(1620, 540, 150, 340));
+    entityManager.add(gateFactory(1620, 540, 140, 330));
     entityManager.add(gateBorderFactory(1600, 540, Side.left, 200, 350));
-    entityManager.add(borderFactory(300, 540, 150, 340));
+    entityManager.add(borderFactory(300, 540, 140, 330));
     entityManager.add(gateBorderFactory(320, 540, Side.right, 200, 350));
     entityManager.add(curtainFactory(...calculateInput()));
-       //1420, 540, curtainText, 920, 1000));
   }
 
   onStart(entityManager){
+    this.copy = entityManager.takeSnapshot();
     deleteCurtain(entityManager);
     insert(protonFactory, 2, curtainTopLeft, curtainBottomRight, entityManager);
     insert(electronFactory, 2, curtainTopLeft, curtainBottomRight, entityManager);

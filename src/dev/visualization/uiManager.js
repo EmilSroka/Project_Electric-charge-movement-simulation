@@ -1,20 +1,34 @@
 export class UIManager {
     constructor() {
         this.buttonState = true;
+        this.statrListeners = [];
+        this.resetListeners = [];
         this.selectButton = document.querySelector('.select');
         this.buttonStart = document.querySelector('.button-start');
         this.buttonCenterRight = document.querySelector('.button-centerRight');
         this.buttonCenterLeft = document.querySelector('.button-centerLeft');
-        this.setButtonText();
-        this.startButtonListenerAl();
+        this.leftCounter = 0;
+        this.rightCounter = 0;
+        this.leftText = '';
+        this.rightText = '';
+
+        this.startButtonListener();
     }
-    setSelectOptions(modes) {
+    setSelectOptions(modes, defaultMode) {
         modes.forEach(mode => {
             var opt = document.createElement('option');
             opt.value = mode;
             opt.textContent = mode;
+            if(mode === defaultMode)
+                opt.setAttribute('selected', true);
             this.selectButton.appendChild(opt);
         });
+    }
+    disableSelectOptions() {
+        this.selectButton.disabled = true;
+    }
+    enableSelectOptions() {
+        this.selectButton.disabled = false;
     }
     addOptionListener(func) {
         this.selectButton.addEventListener('change', func);
@@ -22,13 +36,19 @@ export class UIManager {
     removeOptionListener(func) {
         this.selectButton.removeEventListener('change', func);
     }
-    setState(counter) {
-        this.buttonCenterLeft.value = `${this.buttonCenterLeft.value} ${counter[0]}`;
-        this.buttonCenterRight.value = `${this.buttonCenterRight.value} ${counter[1]}`;
+    setState(left, right) {
+        this.leftCounter = left;
+        this.rightCounter = right;
+        this.renderText();
     }
-    setButtonText() {
-        this.buttonCenterLeft.value = 'liczba elektronów';
-        this.buttonCenterRight.value = 'liczba protonów';
+    setButtonTexts(leftText, rightText) {
+        this.leftText = leftText;
+        this.rightText = rightText;
+        this.renderText();
+    }
+    renderText(){
+        this.buttonCenterLeft.value = `${this.leftText} (${this.leftCounter})`;
+        this.buttonCenterRight.value = `${this.rightText} (${this.rightCounter})`;
     }
     addButtonCenterLeftListener(func) {
         this.buttonCenterLeft.addEventListener('click', func);
@@ -49,24 +69,68 @@ export class UIManager {
     disableCenterLeftButton() {
         this.buttonCenterLeft.disabled = true;
     }
-    disableCenterRightButtonDisable() {
-        this.buttonCenterRight.disabled = true;
-    }
-    startButtonListenerAl() {
-        this.buttonStart.addEventListener('click', this.startButtonOnClickHandlerAlert.bind(this));
-    }
-    startButtonListener() {
-        this.buttonStart.addEventListener('click', this.startButtonOnClickHandler.bind(this));
-    }
-    startButtonOnClickHandlerAlert() {
-        this.startButtonOnClickHandler();
-        alert(this.buttonStart.value);
-    } 
-    startButtonOnClickHandler() {
-        this.buttonState = !this.buttonState;
-        this.buttonState ? this.buttonStart.value = 'Start' : this.buttonStart.value = 'Reset';
-        this.buttonStart.classList.toggle('button-reset');
-        this.buttonStart.blur();
+
+    enableCenterLeftButton() {
+        this.buttonCenterLeft.disabled = false;
     }
 
+    disableCenterRightButton() {
+        this.buttonCenterRight.disabled = true;
+    }
+
+    enableCenterRightButton() {
+        this.buttonCenterRight.disabled = false;
+    }
+
+    // wtf ???
+    
+
+    addStartListener(listener){
+        if(!this.statrListeners.includes(listener))
+            this.statrListeners.push(listener);
+    }
+
+    notifyStartListeners(){
+        for(let listener of this.statrListeners){
+            listener();
+        }
+    }
+
+    addResetListener(listener){
+        if(!this.resetListeners.includes(listener))
+            this.resetListeners.push(listener);
+    }
+
+    notifyResetListener(){
+        for(let listener of this.resetListeners){
+            listener();
+        }
+    }
+
+    startButtonListener() {
+        this.buttonStart.addEventListener('click', () => {
+            this.buttonState = !this.buttonState;
+            this.handleStartButton();
+            if(this.buttonState){
+                this.notifyResetListener();
+            } else {
+                this.notifyStartListeners();
+            }
+        });
+    }
+
+    handleStartButton(){
+        if(this.buttonState){ 
+            this.buttonStart.value = 'Start';
+            this.buttonStart.classList.remove('button-reset');
+        } else {
+            this.buttonStart.value = 'Reset';
+            this.buttonStart.classList.add('button-reset');
+        }
+    }
+
+    setButtonState(state){
+        this.buttonState = state;
+        this.handleStartButton();
+    }
 }

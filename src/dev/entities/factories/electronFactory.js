@@ -15,7 +15,7 @@ export function electronFactory(x, y){
     center: new Coordinates(x,y)
   });
   // entity = staticDecorator(collisionDecorator(electricalDecorator(entity, new ElectricCharge(1, ChargeType.NEGATIVE))));
-  entity = collisionDecorator(electricalDecorator(entity, new ElectricCharge(1, ChargeType.NEGATIVE)));
+  entity = collisionDecorator(electricalDecorator(entity, new ElectricCharge(ChargeType.NEGATIVE, 1)));
   const view = new ElectronView(entity);
   return [entity, view];
 }

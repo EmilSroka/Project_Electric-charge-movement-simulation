@@ -6,6 +6,8 @@ export class EntityManager{
   constructor(){
     // [entity, entityView]
     this.elements = [];
+    this.removeListeners = [];
+    this.addListeners = [];
   }
 
   *[Symbol.iterator] () {
@@ -35,12 +37,38 @@ export class EntityManager{
     if(!this.elements.includes(entity)){
       this.elements.push(entity);
     }
+    this.notifyAddObservers();
+  }
+
+  addOnAddListener(listener){
+    if(!this.addListeners.includes(listener)){
+      this.addListeners.push(listener);
+    }
+  }
+
+  notifyAddObservers(){
+    for(let listener of this.addListeners){
+      listener();
+    }
   }
 
   remove(entity){
     const entityIndex = this.elements.findIndex(([entityObject]) => entityObject === entity);
     if(entityIndex != -1){
       this.elements.splice(entityIndex, 1);
+    }
+    this.notifyRemoveObservers();
+  }
+
+  addOnRemoveListener(listener){
+    if(!this.removeListeners.includes(listener)){
+      this.removeListeners.push(listener);
+    }
+  }
+
+  notifyRemoveObservers(){
+    for(let listener of this.removeListeners){
+      listener();
     }
   }
 
@@ -88,5 +116,9 @@ export class EntityManager{
         return entity;
       }
     } 
+  }
+
+  clear(){
+    this.elements = [];
   }
 }
