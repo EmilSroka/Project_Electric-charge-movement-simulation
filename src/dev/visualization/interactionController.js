@@ -1,7 +1,7 @@
 import { Coordinates } from "../general/geometrics";
 import { StateFactory } from "./states/stateFactory";
 
-export class UIController {
+export class InteractionController {
   constructor(canvas, unitTranslator, entityManager, state){
     this.state = state;
     this.canvas = canvas;

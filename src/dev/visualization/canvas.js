@@ -1,7 +1,7 @@
 import onResize from '../general/onResizeEvent';
 import { UnitTranslator } from './unitTranslator';
 import { Painter } from './painter';
-import { UIController } from './UIController';
+import { InteractionController } from './interactionController';
 import { Visualization } from './visualization';
 import { States, StateFactory } from './states/stateFactory';
 import { puckFactory } from '../entities/factories/puckFactory';
@@ -17,10 +17,10 @@ export class Canvas{
     this.unitTranslator = new UnitTranslator(this.canvas, WIDTH, CANVAS_RATIO);
     this.painter = new Painter(this.canvas, this.unitTranslator);
     
-    this.UIController = new UIController(this.canvas, this.unitTranslator, this.entityManager);
+    this.interactionController = new InteractionController(this.canvas, this.unitTranslator, this.entityManager);
 
-    this.stateFactory = new StateFactory(this.entityManager, this.UIController);
-    this.UIController.setState(this.stateFactory.get(States.AddEntityState, puckFactory(-100, -100)));
+    this.stateFactory = new StateFactory(this.entityManager, this.interactionController);
+    this.interactionController.setState(this.stateFactory.get(States.AddEntityState, puckFactory(-100, -100)));
     
     this.updateSize();
     this.unitTranslator.recalc();

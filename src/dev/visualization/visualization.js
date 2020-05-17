@@ -3,7 +3,6 @@ import { UnitTranslator } from './unitTranslator';
 import { Painter } from './painter';
 import { Circle, Coordinates } from '../general/geometrics';
 import { LIGHT_BLUE, getColor } from '../general/colors';
-import { UIController } from './UIController';
 
 const WIDTH = 1920;
 const PART_OF_PAGE_WIDTH = 0.9;
