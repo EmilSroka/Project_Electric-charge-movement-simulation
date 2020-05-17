@@ -14,8 +14,8 @@ export class GateView{
     const width = topLeft.x - bottomRight.x;
     const height = topLeft.y - bottomRight.y;
     painter.drawRepeatImage(new Rectangle(topRight, width, height), this.fillImage);
-    painter.drawRectangle(this.entity.bounding[0], getColor(this.borderColor), getColor(this.borderColor));
-    painter.drawRectangle(this.entity.bounding[1], getColor(this.borderColor), getColor(this.borderColor));
-    painter.drawRectangle(this.entity.bounding[2], getColor(this.borderColor), getColor(this.borderColor));
+    for(let side of this.entity.bounding){
+      painter.drawRectangle(side, getColor(this.borderColor), getColor(this.borderColor));
+    }
   }
 }
