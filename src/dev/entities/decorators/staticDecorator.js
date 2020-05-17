@@ -16,7 +16,11 @@ export function staticDecorator(component){
     this.bounding = bounding;
     this.center = center;
   }
-  newComponent["mass"] = Number.MAX_VALUE;
+  newComponent["getMass"] = function(){ 
+    component.getMass.call(this);
+    return this.mass;
+  }
+  newComponent["mass"] = Number.MAX_VALUE / 4;
   newComponent["isStatic"] = true;
   newComponent["velocity"] = new Coordinates(0,0);
   newComponent["acceleration"] = new Coordinates(0,0);
