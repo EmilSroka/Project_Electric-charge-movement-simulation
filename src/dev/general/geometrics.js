@@ -84,6 +84,9 @@ export class PositionVector extends Coordinates{
     return new PositionVector(this.x + vector.x, this.y + vector.y);
   }
 
+  dif(vector){
+    return new PositionVector(this.x - vector.x, this.y - vector.y)
+  }
 }
 
 export class Rectangle{

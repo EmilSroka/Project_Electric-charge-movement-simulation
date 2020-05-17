@@ -18,7 +18,7 @@ export function wait(ms){
 }
 
 export function isBetween(x, value1, value2){
-  const [min, max] = [value1, value2].sort();
+  const [min, max] = [value1, value2].sort((a, b) => a - b);
   return x >= min && x <= max;
 }
 
