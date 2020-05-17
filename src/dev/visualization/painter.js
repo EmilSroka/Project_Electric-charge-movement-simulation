@@ -8,9 +8,9 @@ export class Painter{
 
   drawRepeatImage(rectangle, img){
     this.ctx.fillStyle = this.ctx.createPattern(img, 'repeat');
-    this.ctx.beginPath();
+    // this.ctx.beginPath();
 
-    const {x, y} = this.unitTranslator.translatePoint(rectangle.topLeftCorner);
+    const {x, y} = this.unitTranslator.simulationToCanvas(rectangle.topLeftCorner);
     const width = this.unitTranslator.toCanvasUnit(rectangle.width);
     const height = this.unitTranslator.toCanvasUnit(rectangle.height);
     this.ctx.fillRect(x, y, width, height);
@@ -23,7 +23,7 @@ export class Painter{
     this.ctx.lineWidth = this.unitTranslator.toCanvasUnit(lineWidth);
     this.ctx.beginPath();
 
-    const {x, y} = this.unitTranslator.translatePoint(rectangle.topLeftCorner);
+    const {x, y} = this.unitTranslator.simulationToCanvas(rectangle.topLeftCorner);
     const width = this.unitTranslator.toCanvasUnit(rectangle.width);
     const height = this.unitTranslator.toCanvasUnit(rectangle.height);
     this.ctx.rect(x, y, width, height);
@@ -38,7 +38,7 @@ export class Painter{
     this.ctx.lineWidth = this.unitTranslator.toCanvasUnit(lineWidth);
     this.ctx.beginPath();
 
-    const center = this.unitTranslator.translatePoint(circle.center);
+    const center = this.unitTranslator.simulationToCanvas(circle.center);
     const radius = this.unitTranslator.toCanvasUnit(circle.radius);
     this.ctx.arc(center.x, center.y, radius, 0, 2 * Math.PI, true);
     
@@ -46,9 +46,9 @@ export class Painter{
     this.ctx.fill();
   }
 
-  writeText(bottomLeftPoint, content, fontSize, color){
+  writeText(point, content, fontSize, color){
     const realFontSize = this.unitTranslator.toCanvasUnit(fontSize);
-    const position = this.unitTranslator.translatePoint(bottomLeftPoint);
+    const position = this.unitTranslator.simulationToCanvas(point);
 
     this.ctx.textAlign = "center";
     this.ctx.textBaseline = 'middle';
