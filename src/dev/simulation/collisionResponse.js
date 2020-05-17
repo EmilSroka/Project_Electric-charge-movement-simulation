@@ -1,8 +1,9 @@
 import { isBetween, deepCopy } from './../general/utils';
 import { Rectangle, Circle, Coordinates } from './../general/geometrics';
+import { collisionCheckerFactory } from './collisionDetection';
 
-export function collision(entity1, entity2, [shape1, shape2]){
-  if(entity1.previousCollider === entity2 && entity2.previousCollider === entity1)
+export function collision(entity1, entity2, [shape1, shape2], deltaTime){
+  if(collidedInPreviousStep(entity1, entity2, [shape1, shape2], deltaTime))
     return;
     
   const angle = calculateAngle(...getPoints(shape1, shape2));
@@ -10,13 +11,22 @@ export function collision(entity1, entity2, [shape1, shape2]){
   const u1 = rotate(entity1.velocity, angle);
   const u2 = rotate(entity2.velocity, angle);
 
-  const {v1, v2} = calculateVelocity(u1, u2, entity1.mass, entity2.mass);
+  const {v1, v2} = calculateVelocity(u1, u2, entity1.getMass(), entity2.getMass());
 
   entity1.velocity = rotate(v1, -angle);
   entity2.velocity = rotate(v2, -angle);
 
   entity1.previousCollider = shape2;
   entity2.previousCollider = shape1;
+}
+
+function collidedInPreviousStep(entity1, entity2, [shape1, shape2], deltaTime){
+  shape1 = deepCopy(shape1);
+  shape2 = deepCopy(shape2);
+  shape1.move(- entity1.velocity.x * deltaTime, - entity1.velocity.y * deltaTime); 
+  shape2.move(- entity2.velocity.x * deltaTime, - entity2.velocity.y * deltaTime); 
+  const collisionChecker = collisionCheckerFactory(shape1, shape2);
+  return collisionChecker(shape1, shape2);
 }
 
 function getPoints(shape1, shape2){

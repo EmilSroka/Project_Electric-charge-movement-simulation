@@ -1,21 +1,10 @@
 import { PhysicsSimulation } from "./physicsSimulation";
-import { EntityManager } from "../entities/entityManager";
-import { deepCopy } from '../general/utils';
 import { Time } from '../general/time';
+import globalState from '../general/state';
 
 export default class Simulation{
-  /**
-   * @constructor
-   * @param {object} stopCondition - object which contains three methods:
-   *   @property {function} check - returns true, if simulation ends
-   *     @param {EntityManager} entityManager
-   *     @param {Time} time
-   *   @property {function} reset - resets side effects before the next simulation
-   *   @property {function} result - returns object that indicates a result of the simulation, np. win, lose
-   * @param {function} setupEntityManager - adds crucial objects to EntityManager like a puck, hockey gate, walls etc.
-   */
-  constructor(stopCondition, setupEntityManager, entityManager){ 
-    this.stopCondition = stopCondition;
+  constructor(mode, entityManager){ 
+    this.mode = mode;
 
     this.entityManager = entityManager;
     this.simulation = new PhysicsSimulation(entityManager);
@@ -23,22 +12,23 @@ export default class Simulation{
 
     this.nextFrame = this.nextFrame.bind(this);
 
-    setupEntityManager(this.entityManager);
+    mode.onInit(this.entityManager);
   }
 
   startSimulation(){
     this.time = new Time(performance.now());
-    this.stopCondition.reset();
-    this.copy = this.makeCopy();
+    this.copy = this.entityManager.takeSnapshot();
+    this.mode.onStart(this.entityManager);
 
-    this.nextFrame(0);
+    this.nextFrame(performance.now());
   }
 
   nextFrame(timestamp){
     this.time.nextStamp(timestamp);
-    this.simulation.nextStep(this.time.deltaTime);
+    const deltaTime = globalState.getValue('fixedStep') ? globalState.getValue('fixedStepValue') : this.time.getDeltaTime();
+    this.simulation.nextStep(deltaTime);
 
-    if(!this.stopCondition.check(this.entityManager, this.time)){
+    if(!this.mode.meetStopCondition(this.entityManager, this.time)){
       window.requestAnimationFrame(this.nextFrame);
     } else {
       this.notifySubscribers();
@@ -59,22 +49,12 @@ export default class Simulation{
 
   notifySubscribers(){
     for(const observer of this.observers){
-      observer(this.stopCondition.result());
+      observer(this.mode.getResult());
     }
   }
 
-  makeCopy(){ // TODO - refactor
-    const entityManager = [];
-    for(let [entity, view] of this.entityManager.entities){
-      entityManager.push([deepCopy(entity),view]);
-    }
-
-    return {
-      entityManager
-    }
-  }
-
-  restoreCopy({entityManager}){
-    this.entityManager.entities = entityManager;
+  reset(){
+    this.mode.onReset();
+    this.entityManager.restoreSnapshot(this.copy);
   }
 }

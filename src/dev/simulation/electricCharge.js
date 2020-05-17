@@ -1,13 +1,16 @@
 
 import { PositionVector } from "../general/geometrics";
 
-import { Coordinates } from "../general/geometrics";
-
+const e = 1.602176634e-19;
 
 export class ElectricCharge {
   constructor(chargeType, value) {
     this.chargeType = chargeType;
     this.value = value; // value * const e * chargeType = real value 
+  }
+
+  toNumber(){
+    return this.chargeType * this.value * e;
   }
 }
 
@@ -17,29 +20,19 @@ export const ChargeType = {
   NEUTRAL: 0
 }
 
-export function accelerationFromElectricity(entity1, entity2, deltaTime){
-  // calculate interaction (force) between entities in given time
-  var k = 8.9875*Math.pow(10,9);
-  
-  var distance = entity1.position.distance(entity2.position);
-  var force = k*( ( Math.abs( entity1.ElectricCharge*entity2.ElectricCharge ) )/(distance**2) );
-  // calculate acceleration based on force and mass of entites
+export function accelerationFromElectricity(entity1, entity2){
+  const k = 8.9875 * 10 ** 9;
+  const distance = Math.max(entity1.center.distance(entity2.center), 80);
+  const force = k * (entity1.electricCharge.toNumber() * entity2.electricCharge.toNumber()) / distance**2;
 
-  var acceleration1 = force/entity1.mass;
-  var acceleration2 = force/entity2.mass;
+  const accelerationValue1 = force / entity1.getMass();
+  const accelerationValue2 = force / entity2.getMass();
 
-  var vector1 = new PositionVector(entity1.point,entity2.point);
-  var vector2 = new PositionVector(entity2.point,entity1.point);
+  const direction1 = PositionVector.fromDifference(entity1.center,entity2.center);
+  const direction2 = PositionVector.fromDifference(entity2.center,entity1.center);
 
-  vector1 = vector1.normalize();
-  vector2 = vector2.normalize();
+  const acceleration1 = direction1.normalize().multiply(accelerationValue1);
+  const acceleration2 = direction2.normalize().multiply(accelerationValue2);
 
-  vector1.multiply(acceleration1);
-  vector2.multiply(acceleration2);
-
-  entity1.updateAcceleration(vector1);
-  entity2.updateAcceleration(vector2);
-  // return [acceleration for entity1, acceleration for entity2];
-
+  return [acceleration1, acceleration2];
 }
-
