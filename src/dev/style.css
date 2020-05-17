@@ -10,4 +10,55 @@ body {
 #visualization {
   margin: 0 auto;
   display: block;
+  border: 1px solid #fe6637;
+}
+
+.select {
+  padding: 10px 60px 10px 0px;
+  margin: 10px 20px;
+  border-radius: 8px;
+  background: #f0f0f0;
+  border: 2px solid #fe6637;
+  border-radius: 8px;
+  text-align-last: left;
+  font-family: 'Montserrat', sans-serif; 
+  color: #fe6637;
+}
+.button {
+  padding: 10px 30px;
+  margin: 10px 20px;
+  border: 2px solid #fe6637;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif; 
+  color: #fe6637;
+}
+
+.button:hover {
+  color: white;
+  background-color: #fe6637;
+}
+
+.button-start {
+  border: green;
+  background-color: green;
+  color: azure;
+}
+.button-start:hover {
+  border: lime;
+  color: white;
+  background-color: lightgreen;
+}
+
+.button-reset {
+  background-color: red;
+  color: azure;
+}
+.button-reset:hover {
+  border: lightsalmon;
+  background-color: lightcoral;
+}
+
+.menu-items {
+  display: flex;
+  justify-content: center;
 }
