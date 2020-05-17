@@ -1,34 +1,10 @@
-class StopCondition{
-  constructor(){
-    this.i = 0;
-  }
-
-  check(){
-    this.i++;
-    return this.i > 1000;
-  }
-
-  reset(){
-    this.i = 0;
-  }
-
-  result() {}
-}
-
+import "babel-polyfill";
 import css from './style.css';
-import { Visualization } from './visualization/visualization';
-import { electronFactory } from './entities/factories/electronFactory';
-import { protonFactory } from './entities/factories/protonFactory';
-import { EntityManager } from './entities/entityManager';
 
-import Simulation from './simulation/simulation';
+import globalState from './general/state';
+globalState.setValue('massFactor', 1);
+globalState.setValue('fixedStep', false); 
+globalState.setValue('fixedStepValue', 25);
 
-const entityManager = new EntityManager();
-const visualization = new Visualization("#visualization", entityManager);
-const simulation = new Simulation(new StopCondition(), setupEntityManager, entityManager);
-simulation.startSimulation();
-
-function setupEntityManager(entityManager){
-  entityManager.add(electronFactory(50, 540));
-  entityManager.add(protonFactory(1030,540));
-}
+import { Controller } from './controller';
+new Controller().init();

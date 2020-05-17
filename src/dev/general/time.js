@@ -1,3 +1,5 @@
+const maxDeltaTime = 60;
+
 export class Time {
   constructor(firstTimestamp){
     this.firstTimestamp = firstTimestamp;
@@ -13,6 +15,10 @@ export class Time {
   }
 
   getDeltaTime(){
-    return this.deltaTime;
+    return Math.min(this.deltaTime, maxDeltaTime);
+  }
+
+  getTotalTime(){
+    return this.currentTimestamp - this.firstTimestamp;
   }
 }
