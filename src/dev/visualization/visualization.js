@@ -31,15 +31,19 @@ export class Visualization {
   }
 
   nextFrame(){
+    // console.log("Start");
     this.cleanCanvas();
     for(let view of this.entityManager.views()){
       view.draw(this.painter);
+      // console.log("NIE RAZ ???");
     }
     if(this.visualizeField) { 
-      this.fieldVisualisation.draw(this.entityManager, this.painter, this.width, this.height, 80);
+      this.fieldVisualisation.draw(this.entityManager, this.painter, this.width, this.height, this.width / 24);
+      // console.log("RAZ ???");
     } 
 
     window.requestAnimationFrame(this.nextFrame);
+    //console.log("End");
   }
 
   cleanCanvas(){

@@ -8,6 +8,12 @@ export class Painter{
     this.unitTranslator = unitTranslator;
   }
 
+  setProperties(strokeStyle = "black", fillStyle = "black", lineWidth = 1){
+    this.ctx.strokeStyle = strokeStyle;
+    this.ctx.fillStyle = fillStyle;
+    this.ctx.lineWidth = this.unitTranslator.toCanvasUnit(lineWidth);
+  }
+
   drawRepeatImage(rectangle, img){
     this.ctx.fillStyle = this.ctx.createPattern(img, 'repeat');
     // this.ctx.beginPath();
@@ -27,6 +33,31 @@ export class Painter{
     
 
     const length = 0.4 * PositionVector.fromDifference(to, from).length();
+    console.log(length);
+
+    const dx = to.x - from.x;
+    const dy = to.y - from.y;
+    const angle = Math.atan2(dy, dx);
+
+    this.ctx.beginPath();
+    this.ctx.moveTo(from.x, from.y);
+    this.ctx.lineTo(to.x, to.y);
+    this.ctx.stroke();
+
+    this.ctx.beginPath();
+    this.ctx.moveTo(to.x, to.y);
+    this.ctx.lineTo(to.x - length * Math.cos(angle - Math.PI / 6), to.y - length * Math.sin(angle - Math.PI / 6));
+    this.ctx.lineTo(to.x - length * Math.cos(angle + Math.PI / 6), to.y - length * Math.sin(angle + Math.PI / 6));
+    this.ctx.lineTo(to.x, to.y);
+    this.ctx.stroke();
+    this.ctx.fill();
+  }
+
+  drawArrowLight(from, to) {
+    from = this.unitTranslator.simulationToCanvas(from);
+    to = this.unitTranslator.simulationToCanvas(to);
+    
+    const length = 7.968461100260446;
 
     const dx = to.x - from.x;
     const dy = to.y - from.y;

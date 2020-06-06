@@ -35,18 +35,17 @@ export function accelerationFromElectricity(entity1, entity2){
   return [acceleration1, acceleration2];
 }
 
-export function forcesFromElectricity(entity1, entity2){
+export function forceFromElectricity(entity1, entity2){
   const forceValue = forceValueFromElectricity(entity1, entity2);
 
-  const direction1 = PositionVector.fromDifference(entity1.center,entity2.center);
-  const direction2 = PositionVector.fromDifference(entity2.center,entity1.center);
+  const direction = PositionVector.fromDifference(entity1.center,entity2.center);
+  // const direction2 = PositionVector.fromDifference(entity2.center,entity1.center);
 
-  const force1 = direction1.normalize().multiply(forceValue);
-  const force2 = direction2.normalize().multiply(forceValue);
+  const force = direction.multiply(forceValue); // normalize()
+  // const force2 = direction2.multiply(forceValue);
 
-  // console.log(force1, force2);
-
-  return [force1, force2];
+  // return [force1, force2];
+  return force;
 }
 
 function forceValueFromElectricity(entity1, entity2){
