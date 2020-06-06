@@ -14,7 +14,8 @@ export class EasyMode extends Mode {
   }
 
   onInit(entityManager){
-    entityManager.clear();
+    super.onInit(entityManager);
+
     entityManager.add(puckFactory(400,540));
     entityManager.add(wallFactory(1900, 540, 40, 1000));
     entityManager.add(wallFactory(960, 1060, 1920, 40));

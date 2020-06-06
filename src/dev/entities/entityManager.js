@@ -16,6 +16,12 @@ export class EntityManager{
     }
   }
 
+  filter(
+    condition = () => true
+  ){
+    return [...this].filter(condition);
+  }
+
   *views(){
     for (let k=0; k < this.elements.length; k++) {
       yield this.elements[k][1];

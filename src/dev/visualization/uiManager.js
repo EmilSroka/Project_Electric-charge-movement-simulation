@@ -7,6 +7,7 @@ export class UIManager {
         this.buttonStart = document.querySelector('.button-start');
         this.buttonCenterRight = document.querySelector('.button-centerRight');
         this.buttonCenterLeft = document.querySelector('.button-centerLeft');
+        this.checkbox = document.querySelector('.checkbox');
         this.leftCounter = 0;
         this.rightCounter = 0;
         this.leftText = '';
@@ -36,6 +37,7 @@ export class UIManager {
     removeOptionListener(func) {
         this.selectButton.removeEventListener('change', func);
     }
+
     setState(left, right) {
         this.leftCounter = left;
         this.rightCounter = right;
@@ -81,10 +83,6 @@ export class UIManager {
     enableCenterRightButton() {
         this.buttonCenterRight.disabled = false;
     }
-
-    // wtf ???
-    
-
     addStartListener(listener){
         if(!this.statrListeners.includes(listener))
             this.statrListeners.push(listener);
@@ -132,5 +130,9 @@ export class UIManager {
     setButtonState(state){
         this.buttonState = state;
         this.handleStartButton();
+    }
+
+    addCheckboxListener(func) {
+        this.checkbox.addEventListener('change', func);
     }
 }

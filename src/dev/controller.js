@@ -5,13 +5,11 @@ import { EntityManager } from './entities/entityManager';
 import Simulation from './simulation/simulation';
 import { ModesFactory, SimulationModes } from './simulation/modes/modesFactory'; 
 import { Result } from './simulation/modes/mode'
-// import { wait } from "./general/utils";
 import { UIManager } from './visualization/uiManager';
 import { States } from './visualization/states/stateFactory'
 import { configurableElectronFactory } from './entities/factories/configurableElectronFactory';
 import { configurableProtonFactory } from './entities/factories/configurableProtonFactory';
 import { GREEN, RED, BLUE, BLACK } from './general/colors'
-// import { wait } from './general/utils';
 import { curtainFactory } from './entities/factories/curtainFactory';
 
 const canvasSelector = '#visualization';
@@ -31,13 +29,13 @@ export class Controller{
 
     this.setUpUI();
     this.setUpEvents();
+    this.updateCanvasSize();
   }
 
   setUpUI(){
     this.ui.setButtonTexts('Electrons', 'Protons');
     this.updateButtons();
     this.ui.setSelectOptions(Object.values(SimulationModes), SimulationModes.easy);
-
   }
 
   setUpEvents(){
@@ -62,8 +60,12 @@ export class Controller{
     });
 
     this.ui.addOptionListener(event => {
-      this.simulation.setMode(this.modesFactory.get(event.target.value));
+      const newMode = this.modesFactory.get(event.target.value);
+
+      this.simulation.setMode(newMode);
       this.updateButtons();
+      this.updateCanvasSize();
+      
     });
 
     this.ui.addStartListener(() => {
@@ -87,6 +89,10 @@ export class Controller{
       this.canvas.setState( factory.get(States.ConfigureState) );
     });
 
+    this.ui.addCheckboxListener(event => {
+      this.canvas.setVisualizeFieldState(event.target.checked); 
+    });
+
     this.entityManager.addOnAddListener(() => {
       const factory = this.canvas.getStateFactory();
       if(this.canvas.getState() !== factory.get(States.StaticState))
@@ -102,8 +108,11 @@ export class Controller{
         this.displayResult(result);
       }
     });
+  }
 
-    
+  updateCanvasSize(){
+    const [width, ratio] = this.simulation.getCurrentMode().getDimensions();
+    this.canvas.resize(width, ratio);
   }
 
   // helpers

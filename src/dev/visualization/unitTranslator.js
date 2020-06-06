@@ -3,14 +3,20 @@ import { Coordinates } from '../general/geometrics';
 export class UnitTranslator{
   constructor(canvas, width, ratio){
     this.canvas = canvas;
+    this.changeSize(width,ratio);
+  }
+
+  changeSize(width, ratio){
     this.width = width;
+    this.ratio = ratio;
     this.height = width * ratio;
+    this.recalc();
   }
   
   recalc(){
     const { width, height, left, top } = this.canvas.getBoundingClientRect();
 
-    this.unitsRatio = width / 1920;
+    this.unitsRatio = width / this.width;
     this.leftBottom = new Coordinates(0, height);
     this.canvasLeftTop = new Coordinates(left, top);
   }

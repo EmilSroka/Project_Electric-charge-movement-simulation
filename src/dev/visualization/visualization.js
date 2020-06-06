@@ -1,20 +1,29 @@
-import onResize from '../general/onResizeEvent';
-import { UnitTranslator } from './unitTranslator';
-import { Painter } from './painter';
-import { Circle, Coordinates } from '../general/geometrics';
-import { LIGHT_BLUE, getColor } from '../general/colors';
-
-const WIDTH = 1920;
-const PART_OF_PAGE_WIDTH = 0.9;
-const CANVAS_RATIO = 9 / 16;
+import { Coordinates, Rectangle, Circle } from '../general/geometrics';
+import { LIGHT_BLUE, getColor, BLACK } from '../general/colors';
+import { FieldVisualisation } from './fieldVisualisation';
 
 export class Visualization {
-  constructor(entityManager, painter){
+  constructor(entityManager, painter, width, height){
     this.entityManager = entityManager;
     this.painter = painter;
+
+    this.width = width;
+    this.height = height;
+
+    this.visualizeField = false;
+    this.fieldVisualisation = new FieldVisualisation();
     
     this.nextFrame = this.nextFrame.bind(this);
     this.nextFrame();
+  }
+
+  setSize(width, height){
+    this.width = width;
+    this.height = height;
+  }
+
+  setVisualizeFieldState(state){
+    this.visualizeField = state; 
   }
 
   setEntityManager(entityManager){
@@ -26,11 +35,14 @@ export class Visualization {
     for(let view of this.entityManager.views()){
       view.draw(this.painter);
     }
+    if(this.visualizeField) { 
+      this.fieldVisualisation.draw(this.entityManager, this.painter, this.width, this.height, 80);
+    } 
 
     window.requestAnimationFrame(this.nextFrame);
   }
 
   cleanCanvas(){
-    this.painter.drawCircle(new Circle(new Coordinates(0,0), 5000), getColor(LIGHT_BLUE), getColor(LIGHT_BLUE, 0));
+    this.painter.drawRectangle(new Rectangle(new Coordinates(0,this.height), this.width, this.height), getColor(LIGHT_BLUE)); //, ), getColor(LIGHT_BLUE, 0));
   }
 }

@@ -9,12 +9,12 @@ import { wallFactory } from '../../entities/factories/wallFactory';
 export class HardMode extends Mode {
   constructor(){
     super(); 
-    this.electrons = 3;
-    this.protons = 3;
+    this.electrons = 4;
+    this.protons = 4;
   }
 
   onInit(entityManager){
-    entityManager.clear();
+    super.onInit(entityManager);
 
     entityManager.add(puckFactory(400,540));
     

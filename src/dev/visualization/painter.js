@@ -1,3 +1,5 @@
+import { PositionVector } from '../general/geometrics';
+
 const FONT_FAMILY = 'Arial'
 
 export class Painter{
@@ -14,6 +16,34 @@ export class Painter{
     const width = this.unitTranslator.toCanvasUnit(rectangle.width);
     const height = this.unitTranslator.toCanvasUnit(rectangle.height);
     this.ctx.fillRect(x, y, width, height);
+  }
+
+  drawArrow(from, to, color = "black", lineWidth = 5) {
+    from = this.unitTranslator.simulationToCanvas(from);
+    to = this.unitTranslator.simulationToCanvas(to);
+    this.ctx.strokeStyle = color;
+    this.ctx.fillStyle = color;
+    this.ctx.lineWidth = this.unitTranslator.toCanvasUnit(lineWidth);
+    
+
+    const length = 0.4 * PositionVector.fromDifference(to, from).length();
+
+    const dx = to.x - from.x;
+    const dy = to.y - from.y;
+    const angle = Math.atan2(dy, dx);
+
+    this.ctx.beginPath();
+    this.ctx.moveTo(from.x, from.y);
+    this.ctx.lineTo(to.x, to.y);
+    this.ctx.stroke();
+
+    this.ctx.beginPath();
+    this.ctx.moveTo(to.x, to.y);
+    this.ctx.lineTo(to.x - length * Math.cos(angle - Math.PI / 6), to.y - length * Math.sin(angle - Math.PI / 6));
+    this.ctx.lineTo(to.x - length * Math.cos(angle + Math.PI / 6), to.y - length * Math.sin(angle + Math.PI / 6));
+    this.ctx.lineTo(to.x, to.y);
+    this.ctx.stroke();
+    this.ctx.fill();
   }
   
 

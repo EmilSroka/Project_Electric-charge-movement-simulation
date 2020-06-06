@@ -23,7 +23,7 @@ export class RandomMode extends Mode {
   }
 
   onInit(entityManager){
-    entityManager.clear();
+    super.onInit(entityManager);
 
     entityManager.add(puckFactory(960,540));
     entityManager.add(wallFactory(1900, 540, 40, 1000));

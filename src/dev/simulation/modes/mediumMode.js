@@ -14,10 +14,9 @@ export class MediumMode extends Mode {
   }
 
   onInit(entityManager){
-    entityManager.clear();
+    super.onInit(entityManager);
 
     entityManager.add(puckFactory(400,540));
-    
     
     entityManager.add(borderFactory(20, 540, 40, 1000));
     entityManager.add(borderFactory(1900, 540, 40, 1000));

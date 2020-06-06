@@ -18,6 +18,9 @@ export const Result = {
 
 const maxTime = 60000;
 
+const WIDTH = 1920;
+const CANVAS_RATIO = 9 / 16;
+
 export class Mode {
   constructor(){
     this.result = Result.unknown; 
@@ -62,7 +65,13 @@ export class Mode {
     this.result = Result.unknown; 
   }
 
-  onInit() { }
+  onInit(entityManager) {
+    entityManager.clear();
+  }
+
+  getDimensions(){
+    return [WIDTH, CANVAS_RATIO];
+  }
 
   onStart(entityManager) {
     this.copy = entityManager.takeSnapshot();
