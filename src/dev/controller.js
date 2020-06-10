@@ -12,6 +12,8 @@ import { configurableProtonFactory } from './entities/factories/configurableProt
 import { GREEN, RED, BLUE, BLACK } from './general/colors'
 import { curtainFactory } from './entities/factories/curtainFactory';
 
+import globalState from './general/state';
+
 const canvasSelector = '#visualization';
 const defaultMode = SimulationModes.easy;
 
@@ -78,8 +80,9 @@ export class Controller{
       this.canvas.setState( factory.get(States.StaticState) );
     })
 
-    this.ui.addResetListener(() => {
+    this.ui.addResetListener(async () => {
       this.simulation.stop();
+      await this.simulation.waitUntilStop();
       this.simulation.reset();
       this.ui.setButtonState(true);
       this.updateButtons();
@@ -89,8 +92,12 @@ export class Controller{
       this.canvas.setState( factory.get(States.ConfigureState) );
     });
 
-    this.ui.addCheckboxListener(event => {
+    this.ui.addCheckboxFVListener(event => {
       this.canvas.setVisualizeFieldState(event.target.checked); 
+    });
+
+    this.ui.addCheckboxFSListener(event => {
+      globalState.setValue('fixedStep', event.target.checked);
     });
 
     this.entityManager.addOnAddListener(() => {

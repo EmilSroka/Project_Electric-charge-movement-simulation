@@ -90,7 +90,9 @@ export class EntityManager{
     for(let [entity, view] of this.elements){
       copy.push([deepCopy(entity), view]);
     }
+    
     return copy;
+
   }
 
   restoreSnapshot(copy){

@@ -7,7 +7,8 @@ export class UIManager {
         this.buttonStart = document.querySelector('.button-start');
         this.buttonCenterRight = document.querySelector('.button-centerRight');
         this.buttonCenterLeft = document.querySelector('.button-centerLeft');
-        this.checkbox = document.querySelector('.checkbox');
+        this.checkboxFV = document.querySelector('#field-visualization');
+        this.checkboxFS = document.querySelector('#fixed-step');
         this.leftCounter = 0;
         this.rightCounter = 0;
         this.leftText = '';
@@ -132,7 +133,11 @@ export class UIManager {
         this.handleStartButton();
     }
 
-    addCheckboxListener(func) {
-        this.checkbox.addEventListener('change', func);
+    addCheckboxFVListener(func) {
+        this.checkboxFV.addEventListener('change', func);
+    }
+
+    addCheckboxFSListener(func) {
+        this.checkboxFS.addEventListener('change', func);
     }
 }

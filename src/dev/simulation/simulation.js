@@ -2,6 +2,7 @@ import { PhysicsSimulation } from "./physicsSimulation";
 import { Time } from '../general/time';
 import globalState from '../general/state';
 import { Result } from './modes/mode'
+import { Entity } from "../entities/entity";
 
 export default class Simulation{
   constructor(mode, entityManager){ 
@@ -33,6 +34,7 @@ export default class Simulation{
       this.forcedStop = false;
       this.notifySubscribers();
     } else {
+
       window.requestAnimationFrame(this.nextFrame);
     }
   }
@@ -57,6 +59,16 @@ export default class Simulation{
 
   reset(){
     this.mode.onReset(this.entityManager);
+  }
+
+  waitUntilStop(){
+    return new Promise(resolve => {
+      setInterval(() => {
+        if(this.forcedStop === false){
+          resolve();
+        }
+      })
+    })
   }
 
   stop(){

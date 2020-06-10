@@ -16,7 +16,7 @@ export class FieldVisualisation{
       return;
     }
 
-    painter.setProperties("black","black",5);
+    painter.setProperties("black","black",width/768);
 
     for(let x = step/2; x < width; x += step){
       for(let y = step/2; y < height; y += step){
